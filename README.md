@@ -136,16 +136,88 @@ terraform_azurerm/
 ├── terraform.tf
 └── variables.tf
 ```
+Here’s a clean, structured rewrite of your Terraform deployment instructions so they read professionally while keeping the DevOps/CLI clarity:
 
-By default, the infrastructure will consist of two VMs, one VNet, and one subnet. You can customize the number of VMs from the command line.
+---
 
-To deploy the infrastructure, navigate to the `terraform_azurerm` directory and run these commands:
+### **Terraform Infrastructure Deployment**
 
-* `terraform init` : initializes your working directory by downloading the necessary plugins and modules for the providers you've declared in your configuration files
-* `terraform fmt`  : reformats your Terraform configuration files
-* `terraform validate` :  checks your configuration files for syntax errors and internal consistency
-* `terraform plan --out solution.plan` (or `terraform plan -var counter="number of VM" --out solution.plan`) : command creates an execution plan.
-* `Give your Password` 
-* `terraform apply solution.plan`
+By default, this Terraform configuration will deploy:
 
-Once the `terraform apply` command is complete, your infrastructure will be fully deployed.
+* **2 Virtual Machines (VMs)**
+* **1 Virtual Network (VNet)**
+* **1 Subnet**
+
+You can customize the number of VMs directly from the command line.
+
+---
+
+### **Step 1 – Navigate to the Terraform directory**
+
+```bash
+cd terraform_azurerm
+```
+
+---
+
+### **Step 2 – Initialize Terraform**
+
+Downloads all necessary plugins and modules for the providers defined in your configuration files:
+
+```bash
+terraform init
+```
+
+---
+
+### **Step 3 – Format the configuration**
+
+Ensures your Terraform files follow standard formatting:
+
+```bash
+terraform fmt
+```
+
+---
+
+### **Step 4 – Validate the configuration**
+
+Checks for syntax errors and internal consistency:
+
+```bash
+terraform validate
+```
+
+---
+
+### **Step 5 – Create an execution plan**
+
+Default plan (deploys 2 VMs):
+
+```bash
+terraform plan --out solution.plan
+```
+
+Custom VM count (replace `X` with the number of VMs you want):
+
+```bash
+terraform plan -var counter="X" --out solution.plan
+```
+
+You will be prompted to provide your password for secure authentication during provisioning.
+
+---
+
+### **Step 6 – Apply the plan**
+
+Executes the deployment as defined in the plan:
+
+```bash
+terraform apply solution.plan
+```
+
+---
+
+ Once `terraform apply` completes, your infrastructure will be fully deployed in Azure.
+
+-
