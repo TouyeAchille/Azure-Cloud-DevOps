@@ -77,9 +77,37 @@ packer_azure/
 
 To build the image with Packer, navigate to the `packer_azure` directory and run the following commands:
 
-* `packer init .`
-* `packer build .`
+### **Building the Image with Packer**
 
+To create the image, first navigate to the `packer_azure` directory:
+
+```bash
+cd packer_azure
+```
+
+---
+
+**1 – Initialize Packer**
+This command installs all required plugins defined in your Packer configuration:
+
+```bash
+packer init .
+```
+
+---
+
+**2 – Build the Image**
+This command executes the builds defined in your Packer template.
+By default, it will run multiple builds in parallel if specified:
+
+```bash
+packer build .
+```
+
+---
+
+**Tip:** Always run `packer validate .` before `packer build` to ensure your configuration is error-free.
+  
 -----
 
 ### 2 - Creating a Terraform Template
