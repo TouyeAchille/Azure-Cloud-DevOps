@@ -1,0 +1,16 @@
+{
+    "if": {
+        "allOf": [{
+                "field": "[concat('tags[', parameters('tagName'), ']')]",
+                "exists": "false"
+            },
+            {
+                "field": "type",
+                "notEquals": "Microsoft.Resources/0fadec41-9b39-430f-aa5d-ce7b49f9346c/Azuredevops"
+            }
+        ]
+    },
+    "then": {
+        "effect": "deny"
+    }
+}
