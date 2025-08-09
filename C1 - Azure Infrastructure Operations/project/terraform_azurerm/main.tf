@@ -74,11 +74,54 @@ resource "azurerm_linux_virtual_machine" "vm" {
   }
 }
 
-resource "azurerm_network_security_group" "nsg" {
+ resource "azurerm_network_security_group" "nsg" {
   name                = "${data.azurerm_resource_group.rg.name}-nsg"
   location            = data.azurerm_resource_group.rg.location
   resource_group_name = data.azurerm_resource_group.rg.name
 
+  # 1. Allow inbound traffic from Load Balancer (HTTP)
+  security_rule {
+    name                       = "AllowHttpFromLB"
+    priority                   = 100
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "80"
+    source_address_prefix      = "AzureLoadBalancer"
+    destination_address_prefix = "*"
+    description                = "Allow HTTP traffic from Azure Load Balancer"
+  }
+
+  # 2. Allow inbound traffic inside VNet
+  security_rule {
+    name                       = "AllowVnetInbound"
+    priority                   = 110
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "*"
+    source_port_range          = "*"
+    destination_port_range     = "*"
+    source_address_prefix      = "VirtualNetwork"
+    destination_address_prefix = "VirtualNetwork"
+    description                = "Allow internal communication between VMs in the VNet"
+  }
+
+  # 3. Allow outbound traffic inside VNet
+  security_rule {
+    name                       = "AllowVnetOutbound"
+    priority                   = 120
+    direction                  = "Outbound"
+    access                     = "Allow"
+    protocol                   = "*"
+    source_port_range          = "*"
+    destination_port_range     = "*"
+    source_address_prefix      = "VirtualNetwork"
+    destination_address_prefix = "VirtualNetwork"
+    description                = "Allow outbound communication between VMs in the VNet"
+  }
+
+  # 4. Deny inbound traffic from Internet (lowest priority so Allow rules apply first)
   security_rule {
     name                       = "DenyInboundInternet"
     priority                   = 200
@@ -92,21 +135,8 @@ resource "azurerm_network_security_group" "nsg" {
     description                = "Block any inbound traffic from the Internet"
   }
 
-  security_rule {
-    name                       = "AllowVnetInbound"
-    priority                   = 100
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "*"
-    source_port_range          = "*"
-    destination_port_range     = "*"
-    source_address_prefix      = "VirtualNetwork"
-    destination_address_prefix = "VirtualNetwork"
-    description                = "Allow internal communication between VMs in the VNet"
-  }
-
   tags = {
-    "environment" : "NetworkSecurityGroup"
+    environment = "NetworkSecurityGroup"
   }
 
 }

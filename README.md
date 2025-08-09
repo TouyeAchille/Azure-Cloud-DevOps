@@ -108,6 +108,8 @@ packer build .
 
 **Tip:** Always run `packer validate .` before `packer build` to ensure your configuration is error-free.
   
+**Hint:** you can also decide to build image with packer by using  `packer build server.json` 
+  
 -----
 
 ### 2 - Creating a Terraform Template
