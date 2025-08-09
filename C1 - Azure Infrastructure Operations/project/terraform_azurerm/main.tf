@@ -122,7 +122,7 @@ resource "azurerm_public_ip" "public_ip" {
   location            = data.azurerm_resource_group.rg.location
   allocation_method   = "Static"
 
-    tags = {environment = "Public_ip" }
+  tags = { environment = "Public_ip" }
 }
 
 
