@@ -9,7 +9,7 @@ source "azure-arm" "ubuntu" {
   image_sku                         = var.image_sku
   image_version                     = var.image_version
   location                          = var.location
-  managed_image_name                = "${var.image_offer}-${var.image_sku}"
+  managed_image_name                = "myPackerImage"
   managed_image_resource_group_name = var.resource_group_name
   os_type                           = var.os_type
   vm_size                           = "Standard_DS2_v2"

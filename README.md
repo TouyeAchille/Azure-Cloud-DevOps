@@ -20,6 +20,13 @@ cd "C1 - Azure Infrastructure Operations/project/"
 
 ### **Step 2 – Define the policy**
 
+Start by definie your environment variable :
+
+ARM_CLIENT_ID=""
+ARM_CLIENT_SECRET=""
+ARM_TENANT_ID=""
+ARM_SUBSCRIPTION_ID=""
+
 This command creates a new Azure Policy Definition based on the JSON rules in `policy.json` and parameters in `params.json`.
 You can change the name of the policy (`-n`) if you wish.
 

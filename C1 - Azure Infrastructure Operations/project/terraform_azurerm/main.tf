@@ -6,11 +6,6 @@ data "azurerm_resource_group" "rg" {
 }
 
 # using existing image on azure
-data "azurerm_image" "packer_image" {
-  name                = "UbuntuServer-18.04-LTS"
-  resource_group_name = data.azurerm_resource_group.rg.name
-
-}
 
 
 # create virtual network on azure (vnet)
@@ -49,6 +44,12 @@ resource "azurerm_network_interface" "nic" {
 
 }
 
+# using existing image on azure
+data "azurerm_image" "my_packer_image" {
+  name                = "myPackerImage"
+  resource_group_name = data.azurerm_resource_group.rg.name
+
+}
 resource "azurerm_linux_virtual_machine" "vm" {
   count                           = var.counter
   name                            = "${data.azurerm_resource_group.rg.name}-vm${count.index}"
@@ -61,8 +62,8 @@ resource "azurerm_linux_virtual_machine" "vm" {
   network_interface_ids = [
     azurerm_network_interface.nic[count.index].id
   ]
-
-  source_image_id = data.azurerm_image.packer_image.id
+  # Use the existing image from the data source
+  source_image_id = data.azurerm_image.my_packer_image.id      # here we use the image created by packer
 
   os_disk {
     storage_account_type = "Standard_LRS"
